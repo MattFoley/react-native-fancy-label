@@ -1,89 +1,77 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
+
+/*
+ * @providesModule FancyLabel
  */
+
 'use strict';
 
 var React = require('react-native');
-var FancyLabel = require('FancyLabel');
+var RNFancyLabelConstants = React.NativeModules.MFLReactFancyLabel;
+var { requireNativeComponent, processColor, View } = React;
 
-var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
-
-var ReactNativeFancyLabelExample = React.createClass({
-  render: function() {
-
-    var useAllProps = {
-      fadeTruncatingMode: 0,
-      textInsets: {top:0, left:0, bottom:0, right:0},
-      automaticallyAdjustTextInsets: false,
-      letterSpacing: 2,
-      adjustsFontSizeToFitWidth: true,
-      baselineAdjustment: FancyLabel.BaselineAdjustment.AlignCenters,
-      minimumScaleFactor: .5,
-      textAlignment: FancyLabel.TextAlignment.Center,
-
-      strokeSize: 2,
-      strokeColor: '#003355',
-      strokePosition: FancyLabel.StrokePosition.Outside,
-
-      innerShadowOffset: {width:-1, height:-1},
-      innerShadowBlur: 1,
-      innerShadowColor: 'rgba(0, 0, 0, .4)',
-
-      shadowOffset: {width:0, height:2},
-      shadowBlur: 0,
-      shadowColor: '#000088',
-
-      gradientStartPoint: {x:0.49, y:0},
-      gradientEndPoint: {x:.51, y:1.0},
-      gradientColors: ["#6ac141", "#35a1a2", "#a12cd2"],
-
-      fontFace: "HelveticaNeue-CondensedBlack",
-      fontSize: 180,
-      text: "Skillz Skillz Skillz",
-    };
-
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-        <FancyLabel style={{width:400, height:100}}
-                    {...useAllProps} />
-      </View>
-    );
+class FancyLabel extends React.Component {
+  render() {
+    if (processColor) {
+      console.log('ProcessColor RN');
+      var { gradientColors, gradientStartColor, gradientEndColor,
+            innerShadowColor, shadowColor, strokeColor,
+            textColor, ...otherProps } = this.props;
+      return (
+          <RNFancyLabel {...otherProps}
+                        gradientColors={gradientColors.map(processColor)}
+                        gradientStartColor={processColor(gradientStartColor)}
+                        gradientEndColor={processColor(gradientEndColor)}
+                        innerShadowColor={processColor(innerShadowColor)}
+                        shadowColor={processColor(shadowColor)}
+                        textColor={processColor(textColor)}
+                        strokeColor={processColor(strokeColor)}/>
+      )
+    } else {
+      console.log('Legacy RN');
+      return <RNFancyLabel {...this.props}/>;
+    }
   }
-});
+}
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+FancyLabel.propTypes = {
+  fadeTruncatingMode: React.PropTypes.any,
+  textInsets: React.PropTypes.object,
+  automaticallyAdjustTextInsets: React.PropTypes.bool,
+  letterSpacing: React.PropTypes.number,
+  baselineAdjustment: React.PropTypes.number,
+  minimumScaleFactor: React.PropTypes.number,
+  textAlignment: React.PropTypes.number,
 
-AppRegistry.registerComponent('ReactNativeFancyLabelExample', () => ReactNativeFancyLabelExample);
+  strokeSize: React.PropTypes.number,
+  strokeColor: React.PropTypes.any,
+  strokePosition: React.PropTypes.number,
+
+  innerShadowOffset: React.PropTypes.object,
+  innerShadowBlur: React.PropTypes.number,
+  innerShadowColor: React.PropTypes.any,
+
+  shadowOffset: React.PropTypes.object,
+  shadowBlur: React.PropTypes.number,
+  shadowColor: React.PropTypes.any,
+
+  gradientStartPoint: React.PropTypes.object,
+  gradientEndPoint: React.PropTypes.object,
+  gradientStartColor: React.PropTypes.any,
+  gradientEndColor: React.PropTypes.any,
+  gradientColors: React.PropTypes.array,
+
+  fontFace: React.PropTypes.string,
+  fontSize: React.PropTypes.number,
+  textColor: React.PropTypes.any,
+  text: React.PropTypes.string,
+  adjustsFontSizeToFitWidth: React.PropTypes.bool
+}
+
+var RNFancyLabel = React.requireNativeComponent('MFLReactFancyLabel', FancyLabel);
+
+FancyLabel.StrokePosition = RNFancyLabelConstants.StrokePosition;
+FancyLabel.FadeMode = RNFancyLabelConstants.FadeMode;
+FancyLabel.TextAlignment = RNFancyLabelConstants.TextAlignment;
+FancyLabel.BaselineAdjustment = RNFancyLabelConstants.BaselineAdjustment;
+
+module.exports = FancyLabel;

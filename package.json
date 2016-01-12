@@ -1,6 +1,6 @@
 {
   "name": "react-native-fancy-label",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh"
@@ -14,9 +14,5 @@
     "type": "git",
     "url": "git@github.com:MattFoley/react-native-fancy-label.git"
   },
-  "dependencies": {
-    "react-native": "^0.11.0"
-  },
-  "main": "index.ios.js",
   "author": "iOSGuy <tfallon@mail.depaul.edu> (http://github.com/MattFoley)"
 }
