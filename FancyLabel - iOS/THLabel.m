@@ -75,7 +75,7 @@
     self.letterSpacing = 0.0;
     self.gradientStartPoint = CGPointMake(0.5, 0.2);
     self.gradientEndPoint = CGPointMake(0.5, 0.8);
-    self.automaticallyAdjustTextInsets = YES;
+    self.automaticallyAdjustTextInsets = NO;
 }
 
 - (BOOL)hasShadow {
