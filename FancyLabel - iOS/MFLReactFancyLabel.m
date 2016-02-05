@@ -161,19 +161,19 @@ RCT_EXPORT_MODULE();
   [self.label setNeedsDisplay];
 }
 
-- (void)setInnerShadowOffset:(CGSize)innerShadowOffset
+- (void)setInnerTextShadowOffset:(CGSize)innerShadowOffset
 {
   self.label.innerShadowOffset = innerShadowOffset;
   [self.label setNeedsDisplay];
 }
 
-- (void)setInnerShadowColor:(UIColor *)innerShadowColor
+- (void)setInnerTextShadowColor:(UIColor *)innerShadowColor
 {
   self.label.innerShadowColor = innerShadowColor;
   [self.label setNeedsDisplay];
 }
 
-- (void)setInnerShadowBlur:(CGFloat)innerShadowBlur
+- (void)setInnerTextShadowBlur:(CGFloat)innerShadowBlur
 {
   self.label.innerShadowBlur = innerShadowBlur;
   [self.label setNeedsDisplay];
