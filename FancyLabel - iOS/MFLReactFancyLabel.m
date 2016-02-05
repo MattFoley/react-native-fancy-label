@@ -139,7 +139,7 @@ RCT_EXPORT_MODULE();
 
 - (void)setTextAlign:(NSTextAlignment)alignment
 {
-  self.label.textAlignment = textAlignment;
+  self.label.textAlignment = alignment;
   [self.label setNeedsDisplay];
 }
 
