@@ -9,6 +9,31 @@
 #import "MFLReactFancyLabelManager.h"
 #import "MFLReactFancyLabel.h"
 #import "RCTBridge.h"
+#import "THLabel.h"
+
+@implementation RCTConvert(MFLReactFancyLabelManager)
+
+RCT_ENUM_CONVERTER(UIBaselineAdjustment, (@{
+    @"AlignBaselines" : @(UIBaselineAdjustmentAlignBaselines),
+    @"AlignCenters" : @(UIBaselineAdjustmentAlignCenters),
+    @"None" : @(UIBaselineAdjustmentNone)
+}), UIBaselineAdjustmentAlignCenters, integerValue)
+
+RCT_ENUM_CONVERTER(THLabelFadeTruncatingMode, (@{
+    @"None": @(0),
+    @"Tail": @(1),
+    @"Head": @(2),
+    @"HeadAndTail": @(3),
+}), 0, unsignedIntegerValue)
+
+RCT_ENUM_CONVERTER(THLabelStrokePosition, (  @{
+    @"Outside" : @(THLabelStrokePositionOutside),
+    @"Center" : @(THLabelStrokePositionCenter),
+    @"Inside" : @(THLabelStrokePositionInside)
+}
+), THLabelStrokePositionCenter, integerValue)
+
+@end
 
 @interface MFLReactFancyLabelManager () <RCTBridgeModule>
 
@@ -40,28 +65,24 @@ RCT_EXPORT_VIEW_PROPERTY(strokeSize, CGFloat);
 RCT_EXPORT_VIEW_PROPERTY(strokeColor, UIColor);
 RCT_EXPORT_VIEW_PROPERTY(strokePosition, THLabelStrokePosition);
 
-RCT_EXPORT_VIEW_PROPERTY(innerShadowOffset, CGSize);
-RCT_EXPORT_VIEW_PROPERTY(innerShadowBlur, CGFloat);
-RCT_EXPORT_VIEW_PROPERTY(innerShadowColor, UIColor);
+RCT_EXPORT_VIEW_PROPERTY(innerTextShadowOffset, CGSize);
+RCT_EXPORT_VIEW_PROPERTY(innerTextShadowBlur, CGFloat);
+RCT_EXPORT_VIEW_PROPERTY(innerTextShadowColor, UIColor);
 
-RCT_EXPORT_VIEW_PROPERTY(shadowBlur, CGFloat);
-RCT_EXPORT_VIEW_PROPERTY(shadowColor, UIColor);
-RCT_EXPORT_VIEW_PROPERTY(shadowOffset, CGSize);
+RCT_EXPORT_VIEW_PROPERTY(textShadowBlur, CGFloat);
+RCT_EXPORT_VIEW_PROPERTY(textShadowColor, UIColor);
+RCT_EXPORT_VIEW_PROPERTY(textShadowOffset, CGSize);
 
 RCT_EXPORT_VIEW_PROPERTY(adjustsFontSizeToFitWidth, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(baselineAdjustment, UIBaselineAdjustment);
 RCT_EXPORT_VIEW_PROPERTY(minimumScaleFactor, CGFloat);
-RCT_EXPORT_VIEW_PROPERTY(textAlignment, NSTextAlignment);
+RCT_EXPORT_VIEW_PROPERTY(textAlign, NSTextAlignment);
 
-RCT_EXPORT_VIEW_PROPERTY(gradientStartPoint, CGPoint);
-RCT_EXPORT_VIEW_PROPERTY(gradientEndPoint, CGPoint);
-RCT_EXPORT_VIEW_PROPERTY(gradientStartColor, UIColor);
-RCT_EXPORT_VIEW_PROPERTY(gradientEndColor, UIColor);
-RCT_EXPORT_VIEW_PROPERTY(gradientColors, NSArray);
+RCT_EXPORT_VIEW_PROPERTY(gradientColors, NSArray<UIColor*>);
 
-RCT_EXPORT_VIEW_PROPERTY(fontFace, NSString);
+RCT_EXPORT_VIEW_PROPERTY(fontFamily, NSString);
 RCT_EXPORT_VIEW_PROPERTY(fontSize, CGFloat);
-RCT_EXPORT_VIEW_PROPERTY(textColor, UIColor);
-RCT_EXPORT_VIEW_PROPERTY(text, NSString);
+RCT_EXPORT_VIEW_PROPERTY(color, UIColor);
+
 
 @end

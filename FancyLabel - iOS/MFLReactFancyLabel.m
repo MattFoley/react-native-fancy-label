@@ -12,8 +12,9 @@
 
 @interface MFLReactFancyLabel () <RCTBridgeModule>
 
-@property RCTEventDispatcher *eventDispatcher;
-@property THLabel *label;
+@property (nonatomic) RCTEventDispatcher *eventDispatcher;
+@property (nonatomic) THLabel *label;
+@property (nonatomic) UIView *observedView;
 
 @end
 
@@ -29,6 +30,35 @@ RCT_EXPORT_MODULE();
     [self setupLabel];
   }
   return self;
+}
+
+- (void)dealloc
+{
+    self.observedView = nil;
+}
+
+- (void)insertSubview:(UIView *)view atIndex:(NSInteger)index
+{
+    if ([view respondsToSelector:@selector(textStorage)]) {
+        self.observedView = view;
+        view.hidden = YES;
+    }
+    [super insertSubview:view atIndex:index];
+}
+
+- (void)setObservedView:(UIView *)view
+{
+    if (_observedView != view) {
+        [_observedView removeObserver:self forKeyPath:@"textStorage"];
+
+        if (view) {
+            [view addObserver:self
+                             forKeyPath:@"textStorage"
+                                options:NSKeyValueObservingOptionNew
+                                context:nil];
+        }
+        _observedView = view;
+    }
 }
 
 - (void)layoutSubviews
@@ -59,13 +89,13 @@ RCT_EXPORT_MODULE();
   [self.label setNeedsDisplay];
 }
 
-- (void)setTextColor:(UIColor *)textColor
+- (void)setColor:(UIColor *)textColor
 {
   self.label.textColor = textColor;
   [self.label setNeedsDisplay];
 }
 
-- (void)setFontFace:(NSString *)fontFace
+- (void)setFontFamily:(NSString *)fontFace
 {
   self.label.font = [UIFont fontWithName:fontFace size:self.label.font.pointSize];
   [self.label setNeedsDisplay];
@@ -77,14 +107,10 @@ RCT_EXPORT_MODULE();
   [self.label setNeedsDisplay];
 }
 
-- (void)setGradientColors:(NSArray *)gradientColors
+- (void)setGradientColors:(NSArray<UIColor*> *)gradientColors
 {
-  NSMutableArray *colors = [NSMutableArray arrayWithCapacity:gradientColors.count];
-  for (NSString *colorString in gradientColors) {
-    [colors addObject:[RCTConvert UIColor:colorString]];
-  }
-  self.label.gradientColors = colors;
-  [self.label setNeedsDisplay];
+    self.label.gradientColors = gradientColors;
+    [self.label setNeedsDisplay];
 }
 
 - (void)setGradientEndColor:(UIColor *)gradientEndColor
@@ -111,43 +137,43 @@ RCT_EXPORT_MODULE();
   [self.label setNeedsDisplay];
 }
 
-- (void)setTextAlignment:(NSTextAlignment)textAlignment
+- (void)setTextAlign:(NSTextAlignment)alignment
 {
-  self.label.textAlignment = textAlignment;
+  self.label.textAlignment = alignment;
   [self.label setNeedsDisplay];
 }
 
-- (void)setShadowOffset:(CGSize)shadowOffset
+- (void)setTextShadowOffset:(CGSize)shadowOffset
 {
   self.label.shadowOffset = shadowOffset;
   [self.label setNeedsDisplay];
 }
 
-- (void)setShadowColor:(UIColor *)shadowColor
+- (void)setTextShadowColor:(UIColor *)shadowColor
 {
   self.label.shadowColor = shadowColor;
   [self.label setNeedsDisplay];
 }
 
-- (void)setShadowBlur:(CGFloat)shadowBlur
+- (void)setTextShadowBlur:(CGFloat)shadowBlur
 {
   self.label.shadowBlur = shadowBlur;
   [self.label setNeedsDisplay];
 }
 
-- (void)setInnerShadowOffset:(CGSize)innerShadowOffset
+- (void)setInnerTextShadowOffset:(CGSize)innerShadowOffset
 {
   self.label.innerShadowOffset = innerShadowOffset;
   [self.label setNeedsDisplay];
 }
 
-- (void)setInnerShadowColor:(UIColor *)innerShadowColor
+- (void)setInnerTextShadowColor:(UIColor *)innerShadowColor
 {
   self.label.innerShadowColor = innerShadowColor;
   [self.label setNeedsDisplay];
 }
 
-- (void)setInnerShadowBlur:(CGFloat)innerShadowBlur
+- (void)setInnerTextShadowBlur:(CGFloat)innerShadowBlur
 {
   self.label.innerShadowBlur = innerShadowBlur;
   [self.label setNeedsDisplay];
@@ -213,66 +239,20 @@ RCT_EXPORT_MODULE();
   [self.label setNeedsDisplay];
 }
 
-#pragma mark Enum Export
-
-- (NSDictionary *)constantsToExport
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSString *,id> *)change
+                       context:(void *)context
 {
-  return @{@"StrokePosition" : @{ @"Outside" : @(THLabelStrokePositionOutside),
-                                  @"Center" : @(THLabelStrokePositionCenter),
-                                  @"Inside" : @(THLabelStrokePositionInside)
-                                  },
-
-           @"FadeMode" : @{ @"None" : @(0),
-                            @"Tail" : @(1 << 0),
-                            @"Head" : @(1 << 1),
-                            @"HeadAndTail" : @(THLabelFadeTruncatingModeHead | THLabelFadeTruncatingModeTail)
-                            },
-
-           @"BaselineAdjustment" : @{ @"AlignBaselines" : @(UIBaselineAdjustmentAlignBaselines),
-                                      @"AlignCenters" : @(UIBaselineAdjustmentAlignCenters),
-                                      @"None" : @(UIBaselineAdjustmentNone)
-                                      },
-
-           @"TextAlignment" : @{ @"Left" : @(NSTextAlignmentLeft),
-                                 @"Center" : @(NSTextAlignmentCenter),
-                                 @"Right" : @(NSTextAlignmentRight),
-                                 @"Justified" : @(NSTextAlignmentJustified),
-                                 @"Natural" : @(NSTextAlignmentNatural),
-                                 }
-           };
+    UIView *textView = (UIView *) object;
+    NSString *string = [change[@"new"] performSelector:@selector(string)];
+    
+    if (string) {
+        [self.label setText:string];
+    }
+    textView.hidden = YES;
 }
 
-@end
 
-#pragma mark Enum Conversion
-
-@implementation RCTConvert (UIBaselineAdjustment)
-
-RCT_ENUM_CONVERTER(UIBaselineAdjustment, ( @{ @"AlignBaselines" : @(UIBaselineAdjustmentAlignBaselines),
-                                              @"AlignCenters" : @(UIBaselineAdjustmentAlignCenters),
-                                              @"None" : @(UIBaselineAdjustmentNone)
-                                              }
-                                          ), UIBaselineAdjustmentAlignCenters, integerValue)
-
-@end
-
-@implementation RCTConvert (THLabelStrokePosition)
-
-RCT_ENUM_CONVERTER(THLabelStrokePosition, (  @{ @"Outside" : @(THLabelStrokePositionOutside),
-                                                @"Center" : @(THLabelStrokePositionCenter),
-                                                @"Inside" : @(THLabelStrokePositionInside)
-                                                }
-                                           ), THLabelStrokePositionCenter, integerValue)
-
-@end
-
-@implementation RCTConvert (THLabelFadeTruncatingMode)
-
-RCT_ENUM_CONVERTER(THLabelFadeTruncatingMode, ( @{ @"None" : @(0),
-                                                   @"Tail" : @(1 << 0),
-                                                   @"Head" : @(1 << 1),
-                                                   @"HeadAndTail" : @(THLabelFadeTruncatingModeHead | THLabelFadeTruncatingModeTail)
-                                                   }
-                                               ), THLabelStrokePositionCenter, unsignedIntegerValue)
-
+#pragma mark Enum Export
 @end

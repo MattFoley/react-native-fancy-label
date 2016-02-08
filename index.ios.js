@@ -6,72 +6,86 @@
 'use strict';
 
 var React = require('react-native');
-var RNFancyLabelConstants = React.NativeModules.MFLReactFancyLabel;
-var { requireNativeComponent, processColor, View } = React;
+var ReactPropTypes = require('react/lib/ReactPropTypes');
+var StyleSheetPropType = require('react-native/Libraries/StyleSheet/StyleSheetPropType');
+var ColorPropType = require('react-native/Libraries/StyleSheet/ColorPropType');
+var ViewStylePropTypes = require('react-native/Libraries/Components/View/ViewStylePropTypes');
+var StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
+var PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
+var StyleSheetRegistry = require('react-native/Libraries/StyleSheet/StyleSheetRegistry');
+
+var _ = require('lodash');
+
+var { requireNativeComponent, processColor, View, Text } = React;
+
+var FancyLabelOwnPropTypes = {
+    fadeTruncatingMode: ReactPropTypes.oneOf(
+      [ 'None', 'Tail', 'Head', 'HeadAndTail']),
+
+    textInsets: ReactPropTypes.object,
+    automaticallyAdjustTextInsets: ReactPropTypes.bool,
+    letterSpacing: ReactPropTypes.number,
+    baselineAdjustment: ReactPropTypes.oneOf(
+      [ 'AlignBaselines', 'AlignCenters', 'None']),
+
+    minimumScaleFactor: ReactPropTypes.number,
+    textAlign: ReactPropTypes.oneOf(
+      ['auto', 'left', 'right', 'center', 'justify']),
+
+    strokeSize: ReactPropTypes.number,
+    strokeColor: ColorPropType,
+    strokePosition: ReactPropTypes.oneOf(
+      ["Outside", "Center", "Inside"]),
+
+    textShadowOffset: PointPropType,
+    textShadowBlur: ReactPropTypes.number,
+    textShadowColor: ColorPropType,
+
+    innerTextShadowOffset: PointPropType,
+    innerTextShadowBlur: ReactPropTypes.number,
+    innerTextShadowColor: ColorPropType,
+
+    gradientStartPoint: PointPropType,
+    gradientEndPoint: PointPropType,
+
+    gradientColors: ReactPropTypes.arrayOf(ColorPropType),
+
+    fontFamily: ReactPropTypes.string,
+    fontSize: ReactPropTypes.number,
+    color: ColorPropType,
+    adjustsFontSizeToFitWidth: ReactPropTypes.bool
+};
+
+var FancyLabelPropTypes = Object.assign(
+  Object.create(ViewStylePropTypes), FancyLabelOwnPropTypes);
 
 class FancyLabel extends React.Component {
+  static propTypes = {
+      ...View.propTypes,
+      style: StyleSheetPropType(FancyLabelPropTypes)
+  };
+
   render() {
-    if (processColor) {
-      console.log('ProcessColor RN');
-      var { gradientColors, gradientStartColor, gradientEndColor,
-            innerShadowColor, shadowColor, strokeColor,
-            textColor, ...otherProps } = this.props;
-      return (
-          <RNFancyLabel {...otherProps}
-                        gradientColors={gradientColors.map(processColor)}
-                        gradientStartColor={processColor(gradientStartColor)}
-                        gradientEndColor={processColor(gradientEndColor)}
-                        innerShadowColor={processColor(innerShadowColor)}
-                        shadowColor={processColor(shadowColor)}
-                        textColor={processColor(textColor)}
-                        strokeColor={processColor(strokeColor)}/>
-      )
-    } else {
-      console.log('Legacy RN');
-      return <RNFancyLabel {...this.props}/>;
-    }
+      var styleProps = typeof this.props.style == 'number' ? StyleSheetRegistry.getStyleByID(this.props.style) :
+                                                             this.props.style;
+      var viewProps = { ...this.props, style: {..._.omit(styleProps, FancyLabelOwnPropTypes.keys)}};
+      var labelProps = _.pick(styleProps, FancyLabelOwnPropTypes.keys);
+      var textProps = _.pick(styleProps, ['fontSize', 'fontFamily', 'letterSpacing']);
+
+      if (processColor) {
+        const colorPropKeys = ["gradientColors", "strokeColor", "textShadowColor", "innerTextShadowColor", "color"];
+        _.assign(labelProps, _.mapValues(_.pick(styleProps, colorPropKeys), c => processColor(c)));
+      }
+      return (  <RNFancyLabel  {..._.merge(viewProps, labelProps)} >
+                  <Text style={textProps}>{this.props.children}</Text>
+                </RNFancyLabel> );
   }
 }
 
-FancyLabel.propTypes = {
-  fadeTruncatingMode: React.PropTypes.any,
-  textInsets: React.PropTypes.object,
-  automaticallyAdjustTextInsets: React.PropTypes.bool,
-  letterSpacing: React.PropTypes.number,
-  baselineAdjustment: React.PropTypes.number,
-  minimumScaleFactor: React.PropTypes.number,
-  textAlignment: React.PropTypes.number,
+var RNFancyLabel = React.requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
+  nativeOnly :  _.mapValues(FancyLabelOwnPropTypes, (o) => true)
+});
 
-  strokeSize: React.PropTypes.number,
-  strokeColor: React.PropTypes.any,
-  strokePosition: React.PropTypes.number,
-
-  innerShadowOffset: React.PropTypes.object,
-  innerShadowBlur: React.PropTypes.number,
-  innerShadowColor: React.PropTypes.any,
-
-  shadowOffset: React.PropTypes.object,
-  shadowBlur: React.PropTypes.number,
-  shadowColor: React.PropTypes.any,
-
-  gradientStartPoint: React.PropTypes.object,
-  gradientEndPoint: React.PropTypes.object,
-  gradientStartColor: React.PropTypes.any,
-  gradientEndColor: React.PropTypes.any,
-  gradientColors: React.PropTypes.array,
-
-  fontFace: React.PropTypes.string,
-  fontSize: React.PropTypes.number,
-  textColor: React.PropTypes.any,
-  text: React.PropTypes.string,
-  adjustsFontSizeToFitWidth: React.PropTypes.bool
-}
-
-var RNFancyLabel = React.requireNativeComponent('MFLReactFancyLabel', FancyLabel);
-
-FancyLabel.StrokePosition = RNFancyLabelConstants.StrokePosition;
-FancyLabel.FadeMode = RNFancyLabelConstants.FadeMode;
-FancyLabel.TextAlignment = RNFancyLabelConstants.TextAlignment;
-FancyLabel.BaselineAdjustment = RNFancyLabelConstants.BaselineAdjustment;
+StyleSheetValidation.addValidStylePropTypes(FancyLabelPropTypes);
 
 module.exports = FancyLabel;
