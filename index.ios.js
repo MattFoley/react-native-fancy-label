@@ -68,7 +68,7 @@ class FancyLabel extends React.Component {
   render() {
       var styleProps = typeof this.props.style == 'number' ? StyleSheetRegistry.getStyleByID(this.props.style) :
                                                              this.props.style;
-      var viewProps = { ...this.props, style: {..._.omit(styleProps, ._keys(FancyLabelOwnPropTypes))}};
+      var viewProps = { ...this.props, style: {..._.omit(styleProps, _.keys(FancyLabelOwnPropTypes))}};
       var labelProps = _.pick(styleProps, _.keys(FancyLabelOwnPropTypes));
       var textProps = _.pick(styleProps, ['fontSize', 'fontFamily', 'letterSpacing']);
 
