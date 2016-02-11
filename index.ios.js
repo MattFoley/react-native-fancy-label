@@ -76,7 +76,7 @@ class FancyLabel extends React.Component {
                                                             console
       var styleProps = {};
 
-      _.assign(styleProps, styleArray...);
+      _.assign(styleProps, ...styleArray);
 
       var viewProps = { ...this.props, style: {..._.omit(styleProps, _.keys(FancyLabelOwnPropTypes))}};
       var labelProps = _.pick(styleProps, _.keys(FancyLabelOwnPropTypes));
