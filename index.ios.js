@@ -74,7 +74,6 @@ class FancyLabel extends React.Component {
 
       var styleArray = incomingStyle.map( (item) => {typeof item == 'number' ?  StyleSheetRegistry.getStyleByID(this.props.style) :
                                                             item });
-                                                            console
       var styleProps = {};
 
       _.assign(styleProps, ...styleArray);
