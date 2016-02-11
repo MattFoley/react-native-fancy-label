@@ -1,6 +1,7 @@
 
 /*
  * @providesModule FancyLabel
+ * @flow
  */
 
 'use strict';
@@ -66,8 +67,8 @@ class FancyLabel extends React.Component {
   };
 
   render() {
-      var incomdingStyle = this.props.style;
-      if (!Array.isArray(incomdingStyle)) {
+      var incomingStyle = this.props.style;
+      if (!Array.isArray(incomingStyle)) {
         incomingStyle = [incomingStyle];
       }
 
