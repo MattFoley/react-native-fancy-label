@@ -14,5 +14,8 @@
     "type": "git",
     "url": "git@github.com:MattFoley/react-native-fancy-label.git"
   },
-  "author": "iOSGuy <tfallon@mail.depaul.edu> (http://github.com/MattFoley)"
+  "author": "iOSGuy <tfallon@mail.depaul.edu> (http://github.com/MattFoley)",
+  "dependencies": {
+    "lodash": "^4.5.1"
+  }
 }
