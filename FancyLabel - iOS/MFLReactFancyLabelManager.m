@@ -79,6 +79,8 @@ RCT_EXPORT_VIEW_PROPERTY(minimumScaleFactor, CGFloat);
 RCT_EXPORT_VIEW_PROPERTY(textAlign, NSTextAlignment);
 
 RCT_EXPORT_VIEW_PROPERTY(gradientColors, NSArray<UIColor*>);
+RCT_EXPORT_VIEW_PROPERTY(gradientStartPoint, CGPoint);
+RCT_EXPORT_VIEW_PROPERTY(gradientEndPoint, CGPoint);
 
 RCT_EXPORT_VIEW_PROPERTY(fontFamily, NSString);
 RCT_EXPORT_VIEW_PROPERTY(fontSize, CGFloat);
