@@ -18,50 +18,50 @@ var ReactNativeFancyLabelExample = React.createClass({
   render: function() {
 
     var useAllProps = {
-      fadeTruncatingMode: 0,
+      fadeTruncatingMode: "None",
       textInsets: {top:0, left:0, bottom:0, right:0},
       automaticallyAdjustTextInsets: false,
       letterSpacing: 2,
       adjustsFontSizeToFitWidth: true,
-      baselineAdjustment: FancyLabel.BaselineAdjustment.AlignCenters,
+      baselineAdjustment: "AlignCenters",
       minimumScaleFactor: .5,
-      textAlignment: FancyLabel.TextAlignment.Center,
+      textAlign:"center",
 
       strokeSize: 2,
       strokeColor: '#003355',
-      strokePosition: FancyLabel.StrokePosition.Outside,
+      strokePosition: "Outside",
 
-      innerShadowOffset: {width:-1, height:-1},
-      innerShadowBlur: 1,
-      innerShadowColor: 'rgba(0, 0, 0, .4)',
+      innerTextShadowOffset: {x:-1, y:-1},
+      innerTextShadowBlur: 1,
+      innerTextShadowColor: 'rgba(0, 0, 0, .4)',
 
-      shadowOffset: {width:0, height:2},
-      shadowBlur: 0,
-      shadowColor: '#000088',
-
-      gradientStartPoint: {x:0.49, y:0},
-      gradientEndPoint: {x:.51, y:1.0},
+      textShadowOffset: {x:0, y:2},
+      textShadowBlur: 0,
+      textShadowColor: '#000088',
+      gradientStartPoint: {x:0.0, y:0.0},
+      gradientEndPoint: {x:.0, y:0.5},
       gradientColors: ["#6ac141", "#35a1a2", "#a12cd2"],
 
-      fontFace: "HelveticaNeue-CondensedBlack",
-      fontSize: 180,
-      text: "Skillz Skillz Skillz",
+      fontFamily: "HelveticaNeue-CondensedBlack",
+      fontSize: 48,
     };
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
+        <FancyLabel key={1} numberOfLines={2} style={styles.allStyles}>
+          {"Skillz Skillz Skillz"}
+        </FancyLabel>
+        <FancyLabel key={2} style={styles.gradientStyle}>{"Skillz"}</FancyLabel>
+        <FancyLabel key={3} style={[styles.gradientSmallStyle, {width:30}]}>{"Skillz!"}</FancyLabel>
+
+        {/*
+
+        <Text numberOfLines={2} style={styles.textAllStyles}>
+        {"Skillz Skillz Skillz"}
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-        <FancyLabel style={{width:400, height:100}}
-                    {...useAllProps} />
+        <Text style={styles.textStyle}>{"Skillz"}</Text>
+        <Text style={styles.textSmallStyle}>{"Skillz"}</Text>
+        */}
       </View>
     );
   }
@@ -70,6 +70,7 @@ var ReactNativeFancyLabelExample = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
@@ -84,6 +85,74 @@ var styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  allStyles : {
+    fadeTruncatingMode: "None",
+    textInsets: {top:0, left:0, bottom:0, right:0},
+    automaticallyAdjustTextInsets: false,
+    letterSpacing: 2,
+    adjustsFontSizeToFitWidth: true,
+    baselineAdjustment: "AlignCenters",
+    minimumScaleFactor: .5,
+    textAlign:"center",
+
+    strokeSize: 2,
+    strokeColor: '#003355',
+    strokePosition: "Outside",
+
+    innerTextShadowOffset: {x:-1, y:-1},
+    innerTextShadowBlur: 1,
+    innerTextShadowColor: 'rgba(0, 0, 0, .4)',
+
+    textShadowOffset: {x:0, y:2},
+    textShadowBlur: 0,
+    textShadowColor: '#000088',
+    gradientStartPoint: {x:0.0, y:0.0},
+    gradientEndPoint: {x:.0, y:0.5},
+    gradientColors: ["#6ac141", "#35a1a2", "#a12cd2"],
+
+    fontFamily: "HelveticaNeue-CondensedBlack",
+    fontSize: 48,
+  },
+  gradientStyle : {
+    gradientColors: ["red", "orange", "yellow"],
+    adjustsFontSizeToFitWidth : false,
+    fontFamily: "HelveticaNeue-CondensedBlack",
+    strokeSize: 1,
+    strokeColor: "gray",
+    fontSize: 132,
+    flex: 1,
+  },
+  textAllStyles : {
+    fontFamily: "HelveticaNeue-CondensedBlack",
+    fontSize: 48,
+
+  },
+  gradientSmallStyle : {
+    flex: 1,
+    gradientColors: ["red", "orange", "yellow"],
+    adjustsFontSizeToFitWidth : true,
+    fontFamily: "HelveticaNeue-CondensedBlack",
+    strokeSize: 1,
+    width: 150,
+    strokeColor: "gray",
+    fontSize: 132,
+
+  },
+  textStyle : {
+    adjustsFontSizeToFitWidth : false,
+    fontFamily: "HelveticaNeue-CondensedBlack",
+    fontSize: 132,
+    flex: 1,
+  },
+  textSmallStyle : {
+    adjustsFontSizeToFitWidth : false,
+    fontFamily: "HelveticaNeue-CondensedBlack",
+    strokeSize: 1,
+    strokeColor: "gray",
+    fontSize: 132,
+    flex: 1,
+  },
+
 });
 
 AppRegistry.registerComponent('ReactNativeFancyLabelExample', () => ReactNativeFancyLabelExample);

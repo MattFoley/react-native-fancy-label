@@ -21,8 +21,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		4F77B8681C6C57FE0080288E /* libMFLReactFancyLabel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F77B84F1C6C532F0080288E /* libMFLReactFancyLabel.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		D9B8D3031C4476B6002ACB4B /* libMFLReactFancyLabel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9B8D3001C4476AC002ACB4B /* libMFLReactFancyLabel.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +89,20 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		4F77B84E1C6C532F0080288E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F77B84A1C6C532F0080288E /* MFLReactFancyLabel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = MFLReactFancyLabel;
+		};
+		4F77B85B1C6C55EC0080288E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F77B84A1C6C532F0080288E /* MFLReactFancyLabel.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
+			remoteInfo = MFLReactFancyLabel;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -102,20 +116,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
-		};
-		D9B8D2FF1C4476AC002ACB4B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D9B8D2FB1C4476AC002ACB4B /* MFLReactFancyLabel.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = MFLReactFancyLabel;
-		};
-		D9B8D3011C4476B1002ACB4B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D9B8D2FB1C4476AC002ACB4B /* MFLReactFancyLabel.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
-			remoteInfo = MFLReactFancyLabel;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -139,9 +139,9 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ReactNativeFancyLabel/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReactNativeFancyLabel/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		4F77B84A1C6C532F0080288E /* MFLReactFancyLabel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MFLReactFancyLabel.xcodeproj; path = ../../../MFLReactFancyLabel.xcodeproj; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		D9B8D2FB1C4476AC002ACB4B /* MFLReactFancyLabel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MFLReactFancyLabel.xcodeproj; path = "../node_modules/react-native-fancy-label/MFLReactFancyLabel.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9B8D3031C4476B6002ACB4B /* libMFLReactFancyLabel.a in Frameworks */,
+				4F77B8681C6C57FE0080288E /* libMFLReactFancyLabel.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -268,6 +268,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		4F77B84B1C6C532F0080288E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4F77B84F1C6C532F0080288E /* libMFLReactFancyLabel.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,7 +287,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				D9B8D2FB1C4476AC002ACB4B /* MFLReactFancyLabel.xcodeproj */,
+				4F77B84A1C6C532F0080288E /* MFLReactFancyLabel.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -323,14 +331,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D9B8D2FC1C4476AC002ACB4B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D9B8D3001C4476AC002ACB4B /* libMFLReactFancyLabel.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -364,7 +364,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				D9B8D3021C4476B1002ACB4B /* PBXTargetDependency */,
+				4F77B85C1C6C55EC0080288E /* PBXTargetDependency */,
 			);
 			name = ReactNativeFancyLabel;
 			productName = "Hello World";
@@ -399,8 +399,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = D9B8D2FC1C4476AC002ACB4B /* Products */;
-					ProjectRef = D9B8D2FB1C4476AC002ACB4B /* MFLReactFancyLabel.xcodeproj */;
+					ProductGroup = 4F77B84B1C6C532F0080288E /* Products */;
+					ProjectRef = 4F77B84A1C6C532F0080288E /* MFLReactFancyLabel.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -508,6 +508,13 @@
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		4F77B84F1C6C532F0080288E /* libMFLReactFancyLabel.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMFLReactFancyLabel.a;
+			remoteRef = 4F77B84E1C6C532F0080288E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -520,13 +527,6 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D9B8D3001C4476AC002ACB4B /* libMFLReactFancyLabel.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libMFLReactFancyLabel.a;
-			remoteRef = D9B8D2FF1C4476AC002ACB4B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -564,6 +564,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "../node_modules/react-native/packager/react-native-xcode.sh";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -593,10 +594,10 @@
 			target = 13B07F861A680F5B00A75B9A /* ReactNativeFancyLabel */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
-		D9B8D3021C4476B1002ACB4B /* PBXTargetDependency */ = {
+		4F77B85C1C6C55EC0080288E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = MFLReactFancyLabel;
-			targetProxy = D9B8D3011C4476B1002ACB4B /* PBXContainerItemProxy */;
+			targetProxy = 4F77B85B1C6C55EC0080288E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
