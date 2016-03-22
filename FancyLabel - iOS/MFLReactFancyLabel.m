@@ -77,7 +77,7 @@ RCT_EXPORT_MODULE();
 - (void)setupLabel
 {
   self.label = [[THLabel alloc] initWithFrame:self.bounds];
-  [self.label setAutoresizingMask:UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth];
+
   [self addSubview:self.label];
 }
 
