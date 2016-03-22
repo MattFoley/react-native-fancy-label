@@ -17,44 +17,50 @@ var StyleSheetRegistry = require('react-native/Libraries/StyleSheet/StyleSheetRe
 
 var _ = require('lodash');
 
-var { requireNativeComponent, processColor, View, Text } = React;
+var {
+  requireNativeComponent,
+  processColor,
+  View,
+  Text
+} = React;
 
 var FancyLabelOwnPropTypes = {
-    fadeTruncatingMode: ReactPropTypes.oneOf(
-      [ 'None', 'Tail', 'Head', 'HeadAndTail']),
+  fadeTruncatingMode: ReactPropTypes.oneOf(
+    [ 'None', 'Tail', 'Head', 'HeadAndTail']
+  ),
+  textInsets: ReactPropTypes.object,
+  automaticallyAdjustTextInsets: ReactPropTypes.bool,
+  letterSpacing: ReactPropTypes.number,
+  baselineAdjustment: ReactPropTypes.oneOf(
+    [ 'AlignBaselines', 'AlignCenters', 'None']
+  ),
+  minimumScaleFactor: ReactPropTypes.number,
+  textAlign: ReactPropTypes.oneOf(
+    ['auto', 'left', 'right', 'center', 'justify']
+  ),
+  strokeSize: ReactPropTypes.number,
+  strokeColor: ColorPropType,
+  strokePosition: ReactPropTypes.oneOf(
+    ["Outside", "Center", "Inside"]
+  ),
 
-    textInsets: ReactPropTypes.object,
-    automaticallyAdjustTextInsets: ReactPropTypes.bool,
-    letterSpacing: ReactPropTypes.number,
-    baselineAdjustment: ReactPropTypes.oneOf(
-      [ 'AlignBaselines', 'AlignCenters', 'None']),
+  textShadowOffset: PointPropType,
+  textShadowBlur: ReactPropTypes.number,
+  textShadowColor: ColorPropType,
 
-    minimumScaleFactor: ReactPropTypes.number,
-    textAlign: ReactPropTypes.oneOf(
-      ['auto', 'left', 'right', 'center', 'justify']),
+  innerTextShadowOffset: PointPropType,
+  innerTextShadowBlur: ReactPropTypes.number,
+  innerTextShadowColor: ColorPropType,
 
-    strokeSize: ReactPropTypes.number,
-    strokeColor: ColorPropType,
-    strokePosition: ReactPropTypes.oneOf(
-      ["Outside", "Center", "Inside"]),
+  gradientStartPoint: PointPropType,
+  gradientEndPoint: PointPropType,
 
-    textShadowOffset: PointPropType,
-    textShadowBlur: ReactPropTypes.number,
-    textShadowColor: ColorPropType,
+  gradientColors: ReactPropTypes.arrayOf(ColorPropType),
 
-    innerTextShadowOffset: PointPropType,
-    innerTextShadowBlur: ReactPropTypes.number,
-    innerTextShadowColor: ColorPropType,
-
-    gradientStartPoint: PointPropType,
-    gradientEndPoint: PointPropType,
-
-    gradientColors: ReactPropTypes.arrayOf(ColorPropType),
-
-    fontFamily: ReactPropTypes.string,
-    fontSize: ReactPropTypes.number,
-    color: ColorPropType,
-    adjustsFontSizeToFitWidth: ReactPropTypes.bool
+  fontFamily: ReactPropTypes.string,
+  fontSize: ReactPropTypes.number,
+  color: ColorPropType,
+  adjustsFontSizeToFitWidth: ReactPropTypes.bool
 };
 
 var FancyLabelPropTypes = Object.assign(
@@ -67,29 +73,45 @@ class FancyLabel extends React.Component {
   };
 
   render() {
-      var incomingStyle = this.props.style;
-      if (!Array.isArray(incomingStyle)) {
-        incomingStyle = [incomingStyle];
+    var incomingStyle = this.props.style;
+    if (!Array.isArray(incomingStyle)) {
+      incomingStyle = [incomingStyle];
+    }
+
+    var styleArray = incomingStyle.map(
+      (item) => {
+        return (typeof item == 'number') ?
+          StyleSheetRegistry.getStyleByID(item) :
+          item;
       }
+    );
 
-      var styleArray = incomingStyle.map( (item) => {
-          return (typeof item == 'number') ?  StyleSheetRegistry.getStyleByID(item) :
-                                                            item; });
-      var styleProps = {};
+    var styleProps = {};
 
-      _.assign(styleProps, ...styleArray);
+    _.assign(styleProps, ...styleArray);
 
-      var viewProps = { ...this.props, style: {..._.omit(styleProps, _.keys(FancyLabelOwnPropTypes))}};
-      var labelProps = _.pick(styleProps, _.keys(FancyLabelOwnPropTypes));
-      var textProps = _.pick(styleProps, ['fontSize', 'fontFamily', 'letterSpacing']);
-
-      if (processColor) {
-        const colorPropKeys = ["gradientColors", "strokeColor", "textShadowColor", "innerTextShadowColor", "color"];
-        _.assign(labelProps, _.mapValues(_.pick(styleProps, colorPropKeys), c => processColor(c)));
+    var viewProps = {
+      ...this.props,
+      style: {
+        ..._.omit(styleProps, _.keys(FancyLabelOwnPropTypes))
       }
-      return (  <RNFancyLabel  {..._.merge(viewProps, labelProps)} >
-                  <Text style={textProps}>{this.props.children}</Text>
-                </RNFancyLabel> );
+    };
+
+    var labelProps = _.pick(styleProps, _.keys(FancyLabelOwnPropTypes));
+    var textProps = _.pick(styleProps, ['fontSize', 'fontFamily', 'letterSpacing']);
+
+    if (processColor) {
+      const colorPropKeys = ["gradientColors", "strokeColor", "textShadowColor", "innerTextShadowColor", "color"];
+      _.assign(labelProps, _.mapValues(_.pick(styleProps, colorPropKeys), c => processColor(c)));
+    }
+
+    return (
+      <RNFancyLabel  {..._.merge(viewProps, labelProps)} >
+        <Text style={textProps}>
+          {this.props.children}
+        </Text>
+      </RNFancyLabel>
+    );
   }
 }
 
