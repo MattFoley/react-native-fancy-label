@@ -13,7 +13,6 @@ var ColorPropType = require('react-native/Libraries/StyleSheet/ColorPropType');
 var ViewStylePropTypes = require('react-native/Libraries/Components/View/ViewStylePropTypes');
 var StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
 var PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
-var StyleSheetRegistry = require('react-native/Libraries/StyleSheet/StyleSheetRegistry');
 
 var _ = require('lodash');
 
@@ -21,7 +20,8 @@ var {
   requireNativeComponent,
   processColor,
   View,
-  Text
+  Text,
+  StyleSheet
 } = React;
 
 var FancyLabelOwnPropTypes = {
@@ -73,22 +73,7 @@ class FancyLabel extends React.Component {
   };
 
   render() {
-    var incomingStyle = this.props.style;
-    if (!Array.isArray(incomingStyle)) {
-      incomingStyle = [incomingStyle];
-    }
-
-    var styleArray = incomingStyle.map(
-      (item) => {
-        return (typeof item == 'number') ?
-          StyleSheetRegistry.getStyleByID(item) :
-          item;
-      }
-    );
-
-    var styleProps = {};
-
-    _.assign(styleProps, ...styleArray);
+    let styleProps = StyleSheet.flatten(this.props.style) || {};
 
     var viewProps = {
       ...this.props,
