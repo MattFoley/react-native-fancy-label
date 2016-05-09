@@ -1,4 +1,3 @@
-
 /*
  * @providesModule FancyLabel
  * @flow
@@ -13,6 +12,8 @@ var ColorPropType = require('react-native/Libraries/StyleSheet/ColorPropType');
 var ViewStylePropTypes = require('react-native/Libraries/Components/View/ViewStylePropTypes');
 var StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
 var PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
+var StyleSheetRegistry = require('react-native/Libraries/StyleSheet/StyleSheetRegistry');
+
 
 var _ = require('lodash');
 
@@ -73,17 +74,17 @@ class FancyLabel extends React.Component {
   };
 
   render() {
-    let styleProps = StyleSheet.flatten(this.props.style) || {};
+    let styleProps = StyleSheet.flatten(this.props.style);
 
-    var viewProps = {
+    let viewProps = {
       ...this.props,
       style: {
         ..._.omit(styleProps, _.keys(FancyLabelOwnPropTypes))
       }
     };
 
-    var labelProps = _.pick(styleProps, _.keys(FancyLabelOwnPropTypes));
-    var textProps = _.pick(styleProps, ['fontSize', 'fontFamily', 'letterSpacing']);
+    let labelProps = _.pick(styleProps, _.keys(FancyLabelOwnPropTypes));
+    let textProps = _.pick(styleProps, ['fontSize', 'fontFamily', 'letterSpacing']);
 
     if (processColor) {
       const colorPropKeys = ["gradientColors", "strokeColor", "textShadowColor", "innerTextShadowColor", "color"];
@@ -91,8 +92,8 @@ class FancyLabel extends React.Component {
     }
 
     return (
-      <RNFancyLabel  {..._.merge(viewProps, labelProps, {adjustsFontSizeToFitWidth: true})} >
-        <Text style={[textProps, {marginHorizontal: 2}]}>
+      <RNFancyLabel  {..._.merge(viewProps, labelProps)} >
+        <Text style={[textProps]}>
           {this.props.children}
         </Text>
       </RNFancyLabel>
@@ -100,7 +101,7 @@ class FancyLabel extends React.Component {
   }
 }
 
-var RNFancyLabel = React.requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
+let RNFancyLabel = React.requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
   nativeOnly :  _.mapValues(FancyLabelOwnPropTypes, (o) => true)
 });
 

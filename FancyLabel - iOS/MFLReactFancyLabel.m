@@ -13,7 +13,9 @@
 @interface MFLReactFancyLabel () <RCTBridgeModule>
 
 @property (nonatomic) RCTEventDispatcher *eventDispatcher;
-@property (nonatomic) THLabel *label;
+@property (nonatomic) UILabel *label;
+@property (nonatomic) THLabel *thLabel;
+
 @property (nonatomic) UIView *observedView;
 
 @end
@@ -27,7 +29,6 @@ RCT_EXPORT_MODULE();
     self = [super initWithFrame:CGRectZero];
     if (self) {
         _eventDispatcher = eventDispatcher;
-        [self setupLabel];
     }
     return self;
 }
@@ -61,24 +62,60 @@ RCT_EXPORT_MODULE();
     }
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSString *,id> *)change
+                       context:(void *)context
+{
+    NSString *string = [change[@"new"] performSelector:@selector(string)];
+    
+    if (string) {
+        [self.label setText:string];
+    }
+}
+
 - (void)layoutSubviews
 {
     [self.label setFrame:self.bounds];
+    if (_thLabel) {
+        _thLabel.frame = CGRectInset(_thLabel.frame, -2, -2);
+    }
+    [self.observedView removeFromSuperview];
     [self.label setNeedsDisplay];
     [self.label setNeedsLayout];
 }
 
-- (void)setFrame:(CGRect)frame
+- (UILabel*)label
 {
-    [super setFrame:frame];
-    [self.label setFrame:self.bounds];
+    if (!_label) {
+        _label = [[UILabel alloc] initWithFrame:self.bounds];
+        [self addSubview:self.label];
+    }
+    return _label;
 }
 
-- (void)setupLabel
+- (THLabel*)thLabel
 {
-    self.label = [[THLabel alloc] initWithFrame:self.bounds];
-    [self.label setAdjustsFontSizeToFitWidth:YES];
-    [self addSubview:self.label];
+    if (!_thLabel) {
+        _thLabel = [[THLabel alloc] initWithFrame:self.bounds];
+        if (_label) {
+            _thLabel.text = _label.text;
+            _thLabel.textColor = _label.textColor;
+            _thLabel.font = _label.font;
+            _thLabel.textAlignment = _label.textAlignment;
+            _thLabel.shadowOffset = _label.shadowOffset;
+            _thLabel.shadowColor = _label.shadowColor;
+            _thLabel.baselineAdjustment = _label.baselineAdjustment;
+            _thLabel.adjustsFontSizeToFitWidth = _label.adjustsFontSizeToFitWidth;
+            _thLabel.minimumScaleFactor = _label.minimumScaleFactor;
+            
+            [_label removeFromSuperview];
+        }
+        _label = _thLabel;
+
+        [self addSubview:_thLabel];
+    }
+    return _thLabel;
 }
 
 #pragma mark Manager Setters
@@ -107,36 +144,6 @@ RCT_EXPORT_MODULE();
     [self.label setNeedsDisplay];
 }
 
-- (void)setGradientColors:(NSArray<UIColor*> *)gradientColors
-{
-    self.label.gradientColors = gradientColors;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setGradientEndColor:(UIColor *)gradientEndColor
-{
-    self.label.gradientEndColor = gradientEndColor;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setGradientStartColor:(UIColor *)gradientStartColor
-{
-    self.label.gradientStartColor = gradientStartColor;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setGradientEndPoint:(CGPoint)gradientEndPoint
-{
-    self.label.gradientEndPoint = gradientEndPoint;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setGradientStartPoint:(CGPoint)gradientStartPoint
-{
-    self.label.gradientStartPoint = gradientStartPoint;
-    [self.label setNeedsDisplay];
-}
-
 - (void)setTextAlign:(NSTextAlignment)alignment
 {
     self.label.textAlignment = alignment;
@@ -152,72 +159,6 @@ RCT_EXPORT_MODULE();
 - (void)setTextShadowColor:(UIColor *)shadowColor
 {
     self.label.shadowColor = shadowColor;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setTextShadowBlur:(CGFloat)shadowBlur
-{
-    self.label.shadowBlur = shadowBlur;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setInnerTextShadowOffset:(CGSize)innerShadowOffset
-{
-    self.label.innerShadowOffset = innerShadowOffset;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setInnerTextShadowColor:(UIColor *)innerShadowColor
-{
-    self.label.innerShadowColor = innerShadowColor;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setInnerTextShadowBlur:(CGFloat)innerShadowBlur
-{
-    self.label.innerShadowBlur = innerShadowBlur;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setStrokePosition:(THLabelStrokePosition)strokePosition
-{
-    self.label.strokePosition = strokePosition;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setStrokeColor:(UIColor *)strokeColor
-{
-    self.label.strokeColor = strokeColor;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setStrokeSize:(CGFloat)strokeSize
-{
-    self.label.strokeSize = strokeSize;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setLetterSpacing:(CGFloat)letterSpacing
-{
-    self.label.letterSpacing = letterSpacing;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setAutomaticallyAdjustTextInsets:(BOOL)automaticallyAdjustTextInsets
-{
-    self.label.letterSpacing = automaticallyAdjustTextInsets;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setTextInsets:(UIEdgeInsets)textInsets
-{
-    self.label.textInsets = textInsets;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setFadeTruncatingMode:(THLabelFadeTruncatingMode)fadeTruncatingMode
-{
-    self.label.fadeTruncatingMode = fadeTruncatingMode;
     [self.label setNeedsDisplay];
 }
 
@@ -239,20 +180,103 @@ RCT_EXPORT_MODULE();
     [self.label setNeedsDisplay];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary<NSString *,id> *)change
-                       context:(void *)context
-{
-    UIView *textView = (UIView *) object;
-    NSString *string = [change[@"new"] performSelector:@selector(string)];
+#pragma mark - THLabel Properties
 
-    if (string) {
-        [self.label setText:string];
-    }
-    textView.hidden = YES;
+- (void)setGradientColors:(NSArray<UIColor*> *)gradientColors
+{
+    self.thLabel.gradientColors = gradientColors;
+    [self.thLabel setNeedsDisplay];
 }
 
+- (void)setGradientEndColor:(UIColor *)gradientEndColor
+{
+    self.thLabel.gradientEndColor = gradientEndColor;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setGradientStartColor:(UIColor *)gradientStartColor
+{
+    self.thLabel.gradientStartColor = gradientStartColor;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setGradientEndPoint:(CGPoint)gradientEndPoint
+{
+    self.thLabel.gradientEndPoint = gradientEndPoint;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setGradientStartPoint:(CGPoint)gradientStartPoint
+{
+    self.thLabel.gradientStartPoint = gradientStartPoint;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setTextShadowBlur:(CGFloat)shadowBlur
+{
+    self.thLabel.shadowBlur = shadowBlur;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setInnerTextShadowOffset:(CGSize)innerShadowOffset
+{
+    self.thLabel.innerShadowOffset = innerShadowOffset;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setInnerTextShadowColor:(UIColor *)innerShadowColor
+{
+    self.thLabel.innerShadowColor = innerShadowColor;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setInnerTextShadowBlur:(CGFloat)innerShadowBlur
+{
+    self.thLabel.innerShadowBlur = innerShadowBlur;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setStrokePosition:(THLabelStrokePosition)strokePosition
+{
+    self.thLabel.strokePosition = strokePosition;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setStrokeColor:(UIColor *)strokeColor
+{
+    self.thLabel.strokeColor = strokeColor;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setStrokeSize:(CGFloat)strokeSize
+{
+    self.thLabel.strokeSize = strokeSize;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setLetterSpacing:(CGFloat)letterSpacing
+{
+    self.thLabel.letterSpacing = letterSpacing;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setAutomaticallyAdjustTextInsets:(BOOL)automaticallyAdjustTextInsets
+{
+    self.thLabel.letterSpacing = automaticallyAdjustTextInsets;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setTextInsets:(UIEdgeInsets)textInsets
+{
+    self.thLabel.textInsets = textInsets;
+    [self.thLabel setNeedsDisplay];
+}
+
+- (void)setFadeTruncatingMode:(THLabelFadeTruncatingMode)fadeTruncatingMode
+{
+    self.thLabel.fadeTruncatingMode = fadeTruncatingMode;
+    [self.thLabel setNeedsDisplay];
+}
 
 #pragma mark Enum Export
 @end
