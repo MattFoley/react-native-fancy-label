@@ -3,9 +3,8 @@
  * @flow
  */
 
-'use strict';
-
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
 var ReactPropTypes = require('react/lib/ReactPropTypes');
 var StyleSheetPropType = require('react-native/Libraries/StyleSheet/StyleSheetPropType');
 var ColorPropType = require('react-native/Libraries/StyleSheet/ColorPropType');
@@ -15,13 +14,13 @@ var PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
 
 var _ = require('lodash');
 
-var {
+import {
   requireNativeComponent,
   processColor,
   View,
   Text,
   StyleSheet
-} = React;
+} from 'react-native';
 
 var FancyLabelOwnPropTypes = {
   fadeTruncatingMode: ReactPropTypes.oneOf(
@@ -99,7 +98,7 @@ class FancyLabel extends React.Component {
   }
 }
 
-let RNFancyLabel = React.requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
+var RNFancyLabel = requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
   nativeOnly :  _.mapValues(FancyLabelOwnPropTypes, (o) => true)
 });
 
