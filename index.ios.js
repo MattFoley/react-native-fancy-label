@@ -99,7 +99,7 @@ class FancyLabel extends React.Component {
     }
 
     return (
-      <RNFancyLabel  {..._.merge(viewProps, labelProps, {adjustsFontSizeToFitWidth: false})} text={this.props.children}>
+      <RNFancyLabel  {..._.merge(viewProps, labelProps, {adjustsFontSizeToFitWidth: true})} text={this.props.children}>
         <Text style={[textProps, {marginHorizontal: 2}]}>
           {this.props.children}
         </Text>
