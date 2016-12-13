@@ -85,6 +85,7 @@ RCT_EXPORT_VIEW_PROPERTY(gradientEndPoint, CGPoint);
 RCT_EXPORT_VIEW_PROPERTY(fontFamily, NSString);
 RCT_EXPORT_VIEW_PROPERTY(fontSize, CGFloat);
 RCT_EXPORT_VIEW_PROPERTY(color, UIColor);
+RCT_EXPORT_VIEW_PROPERTY(text, NSString);
 
 
 @end

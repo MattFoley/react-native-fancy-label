@@ -37,6 +37,15 @@ RCT_EXPORT_MODULE();
     self.observedView = nil;
 }
 
+- (void)addSubview:(UIView *)view
+{
+    if ([view respondsToSelector:@selector(textStorage)]) {
+        self.observedView = view;
+        view.hidden = YES;
+    }
+    [super addSubview:view];
+}
+
 - (void)insertSubview:(UIView *)view atIndex:(NSInteger)index
 {
     if ([view respondsToSelector:@selector(textStorage)]) {
@@ -110,18 +119,6 @@ RCT_EXPORT_MODULE();
 - (void)setGradientColors:(NSArray<UIColor*> *)gradientColors
 {
     self.label.gradientColors = gradientColors;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setGradientEndColor:(UIColor *)gradientEndColor
-{
-    self.label.gradientEndColor = gradientEndColor;
-    [self.label setNeedsDisplay];
-}
-
-- (void)setGradientStartColor:(UIColor *)gradientStartColor
-{
-    self.label.gradientStartColor = gradientStartColor;
     [self.label setNeedsDisplay];
 }
 

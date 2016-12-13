@@ -6,23 +6,23 @@
 
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
 var ReactPropTypes = require('react/lib/ReactPropTypes');
 var StyleSheetPropType = require('react-native/Libraries/StyleSheet/StyleSheetPropType');
 var ColorPropType = require('react-native/Libraries/StyleSheet/ColorPropType');
 var ViewStylePropTypes = require('react-native/Libraries/Components/View/ViewStylePropTypes');
 var StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
 var PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
-var StyleSheetRegistry = require('react-native/Libraries/StyleSheet/StyleSheetRegistry');
 
 var _ = require('lodash');
 
-var {
+import {
   requireNativeComponent,
   processColor,
   View,
-  Text
-} = React;
+  Text,
+  StyleSheet,
+} from 'react-native';
 
 var FancyLabelOwnPropTypes = {
   fadeTruncatingMode: ReactPropTypes.oneOf(
@@ -60,7 +60,8 @@ var FancyLabelOwnPropTypes = {
   fontFamily: ReactPropTypes.string,
   fontSize: ReactPropTypes.number,
   color: ColorPropType,
-  adjustsFontSizeToFitWidth: ReactPropTypes.bool
+  adjustsFontSizeToFitWidth: ReactPropTypes.bool,
+  text: ReactPropTypes.string,
 };
 
 var FancyLabelPropTypes = Object.assign(
@@ -73,23 +74,7 @@ class FancyLabel extends React.Component {
   };
 
   render() {
-    var incomingStyle = this.props.style;
-    if (!Array.isArray(incomingStyle)) {
-      incomingStyle = [incomingStyle];
-    }
-
-    var styleArray = incomingStyle.map(
-      (item) => {
-        return (typeof item == 'number') ?
-          StyleSheetRegistry.getStyleByID(item) :
-          item;
-      }
-    );
-
-    var styleProps = {};
-
-    _.assign(styleProps, ...styleArray);
-
+    let styleProps = StyleSheet.flatten(this.props.style) || {};
     var viewProps = {
       ...this.props,
       style: {
@@ -102,11 +87,19 @@ class FancyLabel extends React.Component {
 
     if (processColor) {
       const colorPropKeys = ["gradientColors", "strokeColor", "textShadowColor", "innerTextShadowColor", "color"];
-      _.assign(labelProps, _.mapValues(_.pick(styleProps, colorPropKeys), c => processColor(c)));
+      let colorPropValues = _.pick(styleProps, colorPropKeys);
+
+      _.assign(labelProps, _.mapValues(colorPropValues, (c) => {
+        if (Array.isArray(c)) {
+          return c.map(processColor);
+        } else {
+          return processColor(c);
+        }
+      }));
     }
 
     return (
-      <RNFancyLabel  {..._.merge(viewProps, labelProps, {adjustsFontSizeToFitWidth: true})} >
+      <RNFancyLabel  {..._.merge(viewProps, labelProps, {adjustsFontSizeToFitWidth: false})} text={this.props.children}>
         <Text style={[textProps, {marginHorizontal: 2}]}>
           {this.props.children}
         </Text>
@@ -115,8 +108,8 @@ class FancyLabel extends React.Component {
   }
 }
 
-var RNFancyLabel = React.requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
-  nativeOnly :  _.mapValues(FancyLabelOwnPropTypes, (o) => true)
+var RNFancyLabel = requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
+  nativeOnly : _.mapValues(FancyLabelOwnPropTypes, (o) => true)
 });
 
 StyleSheetValidation.addValidStylePropTypes(FancyLabelPropTypes);

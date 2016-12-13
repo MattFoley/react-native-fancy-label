@@ -4,15 +4,15 @@
  */
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
 var FancyLabel = require('react-native-fancy-label');
 
-var {
+import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-} = React;
+} from 'react-native';
 
 var ReactNativeFancyLabelExample = React.createClass({
   render: function() {
@@ -54,14 +54,6 @@ var ReactNativeFancyLabelExample = React.createClass({
         <FancyLabel key={2} style={styles.gradientStyle}>{"Skillz"}</FancyLabel>
         <FancyLabel key={3} style={[styles.gradientSmallStyle, {width:30}]}>{"Skillz!"}</FancyLabel>
 
-        {/*
-
-        <Text numberOfLines={2} style={styles.textAllStyles}>
-        {"Skillz Skillz Skillz"}
-        </Text>
-        <Text style={styles.textStyle}>{"Skillz"}</Text>
-        <Text style={styles.textSmallStyle}>{"Skillz"}</Text>
-        */}
       </View>
     );
   }
@@ -90,7 +82,7 @@ var styles = StyleSheet.create({
     textInsets: {top:0, left:0, bottom:0, right:0},
     automaticallyAdjustTextInsets: false,
     letterSpacing: 2,
-    adjustsFontSizeToFitWidth: true,
+    adjustsFontSizeToFitWidth: false,
     baselineAdjustment: "AlignCenters",
     minimumScaleFactor: .5,
     textAlign:"center",
@@ -130,7 +122,7 @@ var styles = StyleSheet.create({
   gradientSmallStyle : {
     flex: 1,
     gradientColors: ["red", "orange", "yellow"],
-    adjustsFontSizeToFitWidth : true,
+    adjustsFontSizeToFitWidth : false,
     fontFamily: "HelveticaNeue-CondensedBlack",
     strokeSize: 1,
     width: 150,
