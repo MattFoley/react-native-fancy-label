@@ -6,8 +6,8 @@
 //  Copyright © 2016 Skillz. All rights reserved.
 //
 
-#import "RCTView.h"
-#import "RCTEventDispatcher.h"
+#import <React/RCTView.h>
+#import <React/RCTEventDispatcher.h>
 
 @interface MFLReactFancyLabel : RCTView
 

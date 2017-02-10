@@ -8,7 +8,7 @@
 
 #import "MFLReactFancyLabelManager.h"
 #import "MFLReactFancyLabel.h"
-#import "RCTBridge.h"
+#import <React/RCTBridge.h>
 #import "THLabel.h"
 
 @implementation RCTConvert(MFLReactFancyLabelManager)

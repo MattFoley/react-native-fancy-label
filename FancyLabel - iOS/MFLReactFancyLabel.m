@@ -8,7 +8,7 @@
 
 #import "MFLReactFancyLabel.h"
 #import "THLabel.h"
-#import "RCTConvert.h"
+#import <React/RCTConvert.h>
 
 @interface MFLReactFancyLabel () <RCTBridgeModule>
 
