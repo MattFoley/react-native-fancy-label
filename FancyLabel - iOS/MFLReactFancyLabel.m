@@ -224,9 +224,9 @@ RCT_EXPORT_MODULE();
     [self.label setNeedsDisplay];
 }
 
-- (void)setAdjustsFontSizeToFitWidth:(BOOL)adjustsFontSizeToFitWidth
+- (void)adjustsFontSizeToFit:(BOOL)adjustsFontSizeToFit
 {
-    self.label.adjustsFontSizeToFitWidth = adjustsFontSizeToFitWidth;
+    self.label.adjustsFontSizeToFitWidth = adjustsFontSizeToFit;
     [self.label setNeedsDisplay];
 }
 

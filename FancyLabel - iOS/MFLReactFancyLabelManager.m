@@ -73,7 +73,7 @@ RCT_EXPORT_VIEW_PROPERTY(textShadowBlur, CGFloat);
 RCT_EXPORT_VIEW_PROPERTY(textShadowColor, UIColor);
 RCT_EXPORT_VIEW_PROPERTY(textShadowOffset, CGSize);
 
-RCT_EXPORT_VIEW_PROPERTY(adjustsFontSizeToFitWidth, BOOL);
+RCT_EXPORT_VIEW_PROPERTY(adjustsFontSizeToFit, BOOL);
 RCT_EXPORT_VIEW_PROPERTY(baselineAdjustment, UIBaselineAdjustment);
 RCT_EXPORT_VIEW_PROPERTY(minimumScaleFactor, CGFloat);
 RCT_EXPORT_VIEW_PROPERTY(textAlign, NSTextAlignment);
