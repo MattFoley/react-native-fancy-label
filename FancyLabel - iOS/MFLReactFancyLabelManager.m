@@ -14,24 +14,24 @@
 @implementation RCTConvert(MFLReactFancyLabelManager)
 
 RCT_ENUM_CONVERTER(UIBaselineAdjustment, (@{
-    @"AlignBaselines" : @(UIBaselineAdjustmentAlignBaselines),
-    @"AlignCenters" : @(UIBaselineAdjustmentAlignCenters),
-    @"None" : @(UIBaselineAdjustmentNone)
-}), UIBaselineAdjustmentAlignCenters, integerValue)
+                                            @"AlignBaselines" : @(UIBaselineAdjustmentAlignBaselines),
+                                            @"AlignCenters" : @(UIBaselineAdjustmentAlignCenters),
+                                            @"None" : @(UIBaselineAdjustmentNone)
+                                            }), UIBaselineAdjustmentAlignCenters, integerValue)
 
 RCT_ENUM_CONVERTER(THLabelFadeTruncatingMode, (@{
-    @"None": @(0),
-    @"Tail": @(1),
-    @"Head": @(2),
-    @"HeadAndTail": @(3),
-}), 0, unsignedIntegerValue)
+                                                 @"None": @(0),
+                                                 @"Tail": @(1),
+                                                 @"Head": @(2),
+                                                 @"HeadAndTail": @(3),
+                                                 }), 0, unsignedIntegerValue)
 
 RCT_ENUM_CONVERTER(THLabelStrokePosition, (  @{
-    @"Outside" : @(THLabelStrokePositionOutside),
-    @"Center" : @(THLabelStrokePositionCenter),
-    @"Inside" : @(THLabelStrokePositionInside)
-}
-), THLabelStrokePositionCenter, integerValue)
+                                               @"Outside" : @(THLabelStrokePositionOutside),
+                                               @"Center" : @(THLabelStrokePositionCenter),
+                                               @"Inside" : @(THLabelStrokePositionInside)
+                                               }
+                                           ), THLabelStrokePositionCenter, integerValue)
 
 @end
 
@@ -47,12 +47,12 @@ RCT_EXPORT_MODULE();
 
 - (UIView *)view
 {
-  return [[MFLReactFancyLabel alloc] initWithEventDispatcher:self.bridge.eventDispatcher];
+    return [[MFLReactFancyLabel alloc] initWithEventDispatcher:self.bridge.eventDispatcher];
 }
 
 - (dispatch_queue_t)methodQueue
 {
-  return dispatch_get_main_queue();
+    return dispatch_get_main_queue();
 }
 
 RCT_EXPORT_VIEW_PROPERTY(fadeTruncatingMode, THLabelFadeTruncatingMode);

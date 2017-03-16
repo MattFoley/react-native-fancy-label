@@ -59,7 +59,7 @@ RCT_EXPORT_MODULE();
 {
     if (_observedView != view) {
         [_observedView removeObserver:self forKeyPath:@"textStorage"];
-
+        
         if (view) {
             [view addObserver:self
                    forKeyPath:@"textStorage"
@@ -224,7 +224,7 @@ RCT_EXPORT_MODULE();
     [self.label setNeedsDisplay];
 }
 
-- (void)adjustsFontSizeToFit:(BOOL)adjustsFontSizeToFit
+- (void)setAdjustsFontSizeToFit:(BOOL)adjustsFontSizeToFit
 {
     self.label.adjustsFontSizeToFitWidth = adjustsFontSizeToFit;
     [self.label setNeedsDisplay];
@@ -243,7 +243,7 @@ RCT_EXPORT_MODULE();
 {
     UIView *textView = (UIView *) object;
     NSString *string = [change[@"new"] performSelector:@selector(string)];
-
+    
     if (string) {
         [self.label setText:string];
     }
