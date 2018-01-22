@@ -5,7 +5,7 @@
 
 import React from 'react';
 import _ from 'lodash';
-
+import PropTypes from 'prop-types';
 import {
   requireNativeComponent,
   processColor,
@@ -21,43 +21,43 @@ const StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleShe
 const PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
 
 const FancyLabelOwnPropTypes = {
-  fadeTruncatingMode: React.PropTypes.oneOf(
+  fadeTruncatingMode: PropTypes.oneOf(
     [ 'None', 'Tail', 'Head', 'HeadAndTail']
   ),
-  textInsets: React.PropTypes.object,
-  automaticallyAdjustTextInsets: React.PropTypes.bool,
+  textInsets: PropTypes.object,
+  automaticallyAdjustTextInsets: PropTypes.bool,
   letterSpacing: React.PropTypes.number,
-  baselineAdjustment: React.PropTypes.oneOf(
+  baselineAdjustment: PropTypes.oneOf(
     [ 'AlignBaselines', 'AlignCenters', 'None']
   ),
-  minimumScaleFactor: React.PropTypes.number,
-  textAlign: React.PropTypes.oneOf(
+  minimumScaleFactor: PropTypes.number,
+  textAlign: PropTypes.oneOf(
     ['auto', 'left', 'right', 'center', 'justify']
   ),
-  strokeSize: React.PropTypes.number,
+  strokeSize: PropTypes.number,
   strokeColor: ColorPropType,
-  strokePosition: React.PropTypes.oneOf(
+  strokePosition: PropTypes.oneOf(
     ["Outside", "Center", "Inside"]
   ),
 
   textShadowOffset: PointPropType,
-  textShadowBlur: React.PropTypes.number,
+  textShadowBlur: PropTypes.number,
   textShadowColor: ColorPropType,
 
   innerTextShadowOffset: PointPropType,
-  innerTextShadowBlur: React.PropTypes.number,
+  innerTextShadowBlur: PropTypes.number,
   innerTextShadowColor: ColorPropType,
 
   gradientStartPoint: PointPropType,
   gradientEndPoint: PointPropType,
 
-  gradientColors: React.PropTypes.arrayOf(ColorPropType),
+  gradientColors: PropTypes.arrayOf(ColorPropType),
 
-  fontFamily: React.PropTypes.string,
-  fontSize: React.PropTypes.number,
+  fontFamily: PropTypes.string,
+  fontSize: PropTypes.number,
   color: ColorPropType,
-  adjustsFontSizeToFit: React.PropTypes.bool,
-  text: React.PropTypes.string,
+  adjustsFontSizeToFit: PropTypes.bool,
+  text: PropTypes.string,
 };
 
 const FancyLabelPropTypes = Object.assign(
@@ -68,7 +68,7 @@ const FancyLabelPropTypes = Object.assign(
 class FancyLabel extends React.Component {
   static propTypes = {
     ...View.propTypes,
-    adjustsFontSizeToFit: React.PropTypes.bool,
+    adjustsFontSizeToFit: PropTypes.bool,
     style: StyleSheetPropType(FancyLabelPropTypes)
   };
 
@@ -99,7 +99,7 @@ class FancyLabel extends React.Component {
 
     return (
       <RNFancyLabel {..._.merge(viewProps, labelProps, {adjustsFontSizeToFit: true})} text={this.props.children}>
-        <Text style={[textProps, {marginHorizontal: 2}]}>
+        <Text style={[textProps, {marginHorizontal: 2}]} allowFontScaling={false}>
           {this.props.children}
         </Text>
       </RNFancyLabel>
