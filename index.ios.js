@@ -26,7 +26,7 @@ const FancyLabelOwnPropTypes = {
   ),
   textInsets: PropTypes.object,
   automaticallyAdjustTextInsets: PropTypes.bool,
-  letterSpacing: React.PropTypes.number,
+  letterSpacing: PropTypes.number,
   baselineAdjustment: PropTypes.oneOf(
     [ 'AlignBaselines', 'AlignCenters', 'None']
   ),
