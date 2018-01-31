@@ -12,6 +12,7 @@ import {
   View,
   Text,
   StyleSheet,
+  ViewPropTypes,
 } from 'react-native';
 
 const StyleSheetPropType = require('react-native/Libraries/StyleSheet/StyleSheetPropType');
@@ -67,7 +68,7 @@ const FancyLabelPropTypes = Object.assign(
 
 class FancyLabel extends React.Component {
   static propTypes = {
-    ...View.propTypes,
+    ...ViewPropTypes,
     adjustsFontSizeToFit: PropTypes.bool,
     style: StyleSheetPropType(FancyLabelPropTypes)
   };
