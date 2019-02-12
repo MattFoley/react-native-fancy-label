@@ -158,6 +158,11 @@ RCT_EXPORT_MODULE();
     [self.label setNeedsDisplay];
 }
 
+- (void)setTextShadowRadius:(CGFloat)shadowRadius
+{
+  self.textShadowBlur = shadowRadius;
+}
+
 - (void)setInnerTextShadowOffset:(CGSize)innerShadowOffset
 {
     self.label.innerShadowOffset = innerShadowOffset;

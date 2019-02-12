@@ -70,6 +70,7 @@ RCT_EXPORT_VIEW_PROPERTY(innerTextShadowBlur, CGFloat);
 RCT_EXPORT_VIEW_PROPERTY(innerTextShadowColor, UIColor);
 
 RCT_EXPORT_VIEW_PROPERTY(textShadowBlur, CGFloat);
+RCT_EXPORT_VIEW_PROPERTY(textShadowRadius, CGFloat);
 RCT_EXPORT_VIEW_PROPERTY(textShadowColor, UIColor);
 RCT_EXPORT_VIEW_PROPERTY(textShadowOffset, CGSize);
 

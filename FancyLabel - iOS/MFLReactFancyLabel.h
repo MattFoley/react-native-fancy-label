@@ -13,4 +13,5 @@
 
 - (id)initWithEventDispatcher:(RCTEventDispatcher *)eventDispatcher;
 
+@property (nonatomic, assign) CGFloat textShadowRadius;
 @end
