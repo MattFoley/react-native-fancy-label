@@ -7,17 +7,16 @@ import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {
-  requireNativeComponent,
+  ColorPropType,
   processColor,
-  View,
-  Text,
+  requireNativeComponent,
   StyleSheet,
+  StyleSheetPropType,
+  Text,
   ViewPropTypes,
+  ViewStylePropTypes,
 } from 'react-native';
 
-const StyleSheetPropType = require('react-native/Libraries/StyleSheet/StyleSheetPropType');
-const ColorPropType = require('react-native/Libraries/StyleSheet/ColorPropType');
-const ViewStylePropTypes = require('react-native/Libraries/Components/View/ViewStylePropTypes');
 const StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
 const PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
 
