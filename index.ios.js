@@ -6,20 +6,20 @@
 var React = require('react');
 var ReactNative = require('react-native');
 var ReactPropTypes = require('react/lib/ReactPropTypes');
-var StyleSheetPropType = require('react-native/Libraries/StyleSheet/StyleSheetPropType');
-var ColorPropType = require('react-native/Libraries/StyleSheet/ColorPropType');
-var ViewStylePropTypes = require('react-native/Libraries/Components/View/ViewStylePropTypes');
 var StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
 var PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
 
 var _ = require('lodash');
 
 import {
-  requireNativeComponent,
+  ColorPropType,
   processColor,
-  View,
+  requireNativeComponent,
+  StyleSheet,
+  StyleSheetPropType,
   Text,
-  StyleSheet
+  View,
+  ViewStylePropTypes
 } from 'react-native';
 
 var FancyLabelOwnPropTypes = {
