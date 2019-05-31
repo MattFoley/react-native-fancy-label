@@ -3,94 +3,108 @@
  * @flow
  */
 
-var React = require('react');
-var ReactNative = require('react-native');
-var ReactPropTypes = require('react/lib/ReactPropTypes');
-var StyleSheetPropType = require('react-native/Libraries/StyleSheet/StyleSheetPropType');
-var ColorPropType = require('react-native/Libraries/StyleSheet/ColorPropType');
-var ViewStylePropTypes = require('react-native/Libraries/Components/View/ViewStylePropTypes');
-var StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
-var PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
-
-var _ = require('lodash');
-
+import React from 'react';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
 import {
-  requireNativeComponent,
+  ColorPropType,
   processColor,
-  View,
+  requireNativeComponent,
+  StyleSheet,
+  StyleSheetPropType,
   Text,
-  StyleSheet
+  ViewPropTypes,
+  ViewStylePropTypes,
 } from 'react-native';
 
-var FancyLabelOwnPropTypes = {
-  fadeTruncatingMode: ReactPropTypes.oneOf(
+const StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
+
+const PointPropType = PropTypes.shape({
+  x: PropTypes.number,
+  y: PropTypes.number,
+ });
+
+const FancyLabelOwnPropTypes = {
+  fadeTruncatingMode: PropTypes.oneOf(
     [ 'None', 'Tail', 'Head', 'HeadAndTail']
   ),
-  textInsets: ReactPropTypes.object,
-  automaticallyAdjustTextInsets: ReactPropTypes.bool,
-  letterSpacing: ReactPropTypes.number,
-  baselineAdjustment: ReactPropTypes.oneOf(
+  textInsets: PropTypes.object,
+  automaticallyAdjustTextInsets: PropTypes.bool,
+  letterSpacing: PropTypes.number,
+  baselineAdjustment: PropTypes.oneOf(
     [ 'AlignBaselines', 'AlignCenters', 'None']
   ),
-  minimumScaleFactor: ReactPropTypes.number,
-  textAlign: ReactPropTypes.oneOf(
+  minimumScaleFactor: PropTypes.number,
+  textAlign: PropTypes.oneOf(
     ['auto', 'left', 'right', 'center', 'justify']
   ),
-  strokeSize: ReactPropTypes.number,
+  strokeSize: PropTypes.number,
   strokeColor: ColorPropType,
-  strokePosition: ReactPropTypes.oneOf(
+  strokePosition: PropTypes.oneOf(
     ["Outside", "Center", "Inside"]
   ),
 
   textShadowOffset: PointPropType,
-  textShadowBlur: ReactPropTypes.number,
+  textShadowBlur: PropTypes.number,
   textShadowColor: ColorPropType,
 
   innerTextShadowOffset: PointPropType,
-  innerTextShadowBlur: ReactPropTypes.number,
+  innerTextShadowBlur: PropTypes.number,
   innerTextShadowColor: ColorPropType,
 
   gradientStartPoint: PointPropType,
   gradientEndPoint: PointPropType,
 
-  gradientColors: ReactPropTypes.arrayOf(ColorPropType),
+  gradientColors: PropTypes.arrayOf(ColorPropType),
 
-  fontFamily: ReactPropTypes.string,
-  fontSize: ReactPropTypes.number,
+  fontFamily: PropTypes.string,
+  fontSize: PropTypes.number,
   color: ColorPropType,
-  adjustsFontSizeToFitWidth: ReactPropTypes.bool
+  adjustsFontSizeToFit: PropTypes.bool,
+  text: PropTypes.string,
 };
 
-var FancyLabelPropTypes = Object.assign(
-  Object.create(ViewStylePropTypes), FancyLabelOwnPropTypes);
+console.debug('RYANLOG ViewPropTypes', ViewPropTypes);
+const FancyLabelPropTypes = Object.assign(
+  Object.create(ViewPropTypes),
+  FancyLabelOwnPropTypes
+);
 
 class FancyLabel extends React.Component {
   static propTypes = {
-      ...View.propTypes,
-      style: StyleSheetPropType(FancyLabelPropTypes)
+    ...ViewPropTypes,
+    adjustsFontSizeToFit: PropTypes.bool,
+    style: FancyLabelPropTypes
   };
 
-  render() {
-    let styleProps = StyleSheet.flatten(this.props.style);
-
-    let viewProps = {
+  render(): React.Element {
+    const styleProps = StyleSheet.flatten(this.props.style) || {};
+    const viewProps = {
       ...this.props,
       style: {
         ..._.omit(styleProps, _.keys(FancyLabelOwnPropTypes))
       }
     };
 
-    let labelProps = _.pick(styleProps, _.keys(FancyLabelOwnPropTypes));
-    let textProps = _.pick(styleProps, ['fontSize', 'fontFamily', 'letterSpacing']);
+    const labelProps = _.pick(styleProps, _.keys(FancyLabelOwnPropTypes));
+    const textProps = _.pick(styleProps, ['fontSize', 'fontFamily', 'letterSpacing']);
 
     if (processColor) {
       const colorPropKeys = ["gradientColors", "strokeColor", "textShadowColor", "innerTextShadowColor", "color"];
-      _.assign(labelProps, _.mapValues(_.pick(styleProps, colorPropKeys), c => processColor(c)));
+      const colorPropValues = _.pick(styleProps, colorPropKeys);
+
+      _.assign(labelProps, _.mapValues(colorPropValues, (c: *): boolean => {
+        if (Array.isArray(c)) {
+          return c.map(processColor);
+        } else {
+          return processColor(c);
+        }
+      }));
     }
 
     return (
-      <RNFancyLabel  {..._.merge(viewProps, labelProps)} >
-        <Text style={[textProps]}>
+      <RNFancyLabel {..._.merge(viewProps, labelProps, {adjustsFontSizeToFit: true})} text={this.props.children}>
+        <Text style={[textProps, {marginHorizontal: 2}]} allowFontScaling={false}>
           {this.props.children}
         </Text>
       </RNFancyLabel>
@@ -98,10 +112,10 @@ class FancyLabel extends React.Component {
   }
 }
 
-var RNFancyLabel = requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
-  nativeOnly :  _.mapValues(FancyLabelOwnPropTypes, (o) => true)
+const RNFancyLabel = requireNativeComponent('MFLReactFancyLabel', FancyLabel, {
+  nativeOnly : _.mapValues(FancyLabelOwnPropTypes, (o:*):boolean => true)
 });
 
 StyleSheetValidation.addValidStylePropTypes(FancyLabelPropTypes);
 
-module.exports = FancyLabel;
+export default FancyLabel;
