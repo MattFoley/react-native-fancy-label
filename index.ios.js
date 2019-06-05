@@ -11,14 +11,16 @@ import {
   processColor,
   requireNativeComponent,
   StyleSheet,
-  StyleSheetPropType,
   Text,
   ViewPropTypes,
-  ViewStylePropTypes,
 } from 'react-native';
 
-const StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
 const PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
+const StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
+const ViewStylePropTypes = require('react-native/Libraries/DeprecatedPropTypes/DeprecatedViewStylePropTypes.js');
+const StyleSheetPropType = require('react-native/Libraries/DeprecatedPropTypes/DeprecatedStyleSheetPropType.js')
+
+StyleSheetValidation.addValidStylePropTypes(ViewStylePropTypes);
 
 const FancyLabelOwnPropTypes = {
   fadeTruncatingMode: PropTypes.oneOf(
