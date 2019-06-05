@@ -42,16 +42,16 @@ const FancyLabelOwnPropTypes = {
     ["Outside", "Center", "Inside"]
   ),
 
-  textShadowOffset: PointPropType,
+  textShadowOffset: PropTypes.object,
   textShadowBlur: PropTypes.number,
   textShadowColor: ColorPropType,
 
-  innerTextShadowOffset: PointPropType,
+  innerTextShadowOffset: PropTypes.object,
   innerTextShadowBlur: PropTypes.number,
   innerTextShadowColor: ColorPropType,
 
-  gradientStartPoint: PointPropType,
-  gradientEndPoint: PointPropType,
+  gradientStartPoint: PropTypes.object,
+  gradientEndPoint: PropTypes.object,
 
   gradientColors: PropTypes.arrayOf(ColorPropType),
 
