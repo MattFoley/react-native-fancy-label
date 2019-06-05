@@ -15,7 +15,6 @@ import {
   ViewPropTypes,
 } from 'react-native';
 
-const PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
 const StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
 const ViewStylePropTypes = require('react-native/Libraries/DeprecatedPropTypes/DeprecatedViewStylePropTypes.js');
 const StyleSheetPropType = require('react-native/Libraries/DeprecatedPropTypes/DeprecatedStyleSheetPropType.js')
