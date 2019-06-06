@@ -11,14 +11,15 @@ import {
   processColor,
   requireNativeComponent,
   StyleSheet,
-  StyleSheetPropType,
   Text,
   ViewPropTypes,
-  ViewStylePropTypes,
 } from 'react-native';
 
 const StyleSheetValidation = require('react-native/Libraries/StyleSheet/StyleSheetValidation')
-const PointPropType = require('react-native/Libraries/StyleSheet/PointPropType');
+const ViewStylePropTypes = require('react-native/Libraries/DeprecatedPropTypes/DeprecatedViewStylePropTypes.js');
+const StyleSheetPropType = require('react-native/Libraries/DeprecatedPropTypes/DeprecatedStyleSheetPropType.js')
+
+StyleSheetValidation.addValidStylePropTypes(ViewStylePropTypes);
 
 const FancyLabelOwnPropTypes = {
   fadeTruncatingMode: PropTypes.oneOf(
@@ -40,16 +41,16 @@ const FancyLabelOwnPropTypes = {
     ["Outside", "Center", "Inside"]
   ),
 
-  textShadowOffset: PointPropType,
+  textShadowOffset: PropTypes.object,
   textShadowBlur: PropTypes.number,
   textShadowColor: ColorPropType,
 
-  innerTextShadowOffset: PointPropType,
+  innerTextShadowOffset: PropTypes.object,
   innerTextShadowBlur: PropTypes.number,
   innerTextShadowColor: ColorPropType,
 
-  gradientStartPoint: PointPropType,
-  gradientEndPoint: PointPropType,
+  gradientStartPoint: PropTypes.object,
+  gradientEndPoint: PropTypes.object,
 
   gradientColors: PropTypes.arrayOf(ColorPropType),
 

@@ -39,11 +39,13 @@ RCT_EXPORT_MODULE();
 
 - (void)addSubview:(UIView *)view
 {
-    if ([view respondsToSelector:@selector(textStorage)]) {
-        self.observedView = view;
-        view.hidden = YES;
+    if ([view isKindOfClass:[THLabel class]]) {
+        if ([view respondsToSelector:@selector(textStorage)]) {
+            self.observedView = view;
+            view.hidden = YES;
+        }
+        [super addSubview:view];
     }
-    [super addSubview:view];
 }
 
 - (void)insertSubview:(UIView *)view atIndex:(NSInteger)index
