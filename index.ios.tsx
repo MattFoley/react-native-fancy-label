@@ -98,7 +98,7 @@ class FancyLabel extends React.Component<IFancyLabel> {
       const colorPropKeys = ["gradientColors", "strokeColor", "textShadowColor", "innerTextShadowColor", "color"];
       const colorPropValues = _.pick(styleProps, colorPropKeys);
 
-      _.assign(labelProps, _.mapValues(colorPropValues, (c: *): ProcessedColorValue | null | undefined | (ProcessedColorValue | null | undefined)[] => {
+      _.assign(labelProps, _.mapValues(colorPropValues, (c: any): ProcessedColorValue | null | undefined | (ProcessedColorValue | null | undefined)[] => {
         if (Array.isArray(c)) {
           return c.map(processColor);
         } else {
@@ -108,7 +108,7 @@ class FancyLabel extends React.Component<IFancyLabel> {
     }
 
     return (
-      <RNFancyLabel {..._.merge(viewProps, labelProps, {adjustsFontSizeToFit: true})} text={this.props.children}>
+      <RNFancyLabel {..._.merge(viewProps, labelProps, {adjustsFontSizeToFit: true})} text={this.props.children as string}>
         <Text style={[textProps, {marginHorizontal: 2}]} allowFontScaling={false}>
           {this.props.children}
         </Text>
